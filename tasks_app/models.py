@@ -1,6 +1,6 @@
 from django.db import models
 from contacts_app.models import Contact
-from boards_app.models import Board
+from boards_app.models import Board, BoardList
 from users_auth_app.models import User
 from utils.auxiliary_functions import generate_random_color
 
@@ -10,13 +10,6 @@ class Task(models.Model):
         ('urgent', 'Urgent'),
         ('medium', 'Medium'),
         ('low', 'Low'),
-    ]
-
-    STATUS_CHOICES = [
-        ('toDo', 'Todo'),
-        ('inProgress', 'In Progress'),
-        ('awaitFeedback', 'Await Feedback'),
-        ('done', 'Done'),
     ]
 
     title = models.CharField(max_length=255),
@@ -35,14 +28,21 @@ class Task(models.Model):
         default=1,
         related_name='tasks'
     )
-    status = models.CharField(
-        max_length=15,
-        choices=STATUS_CHOICES,
-        default='toDo'
+    board_list = models.ForeignKey(
+        BoardList, on_delete=models.CASCADE, related_name="tasks", default=None, null=True, blank=True
     )
     board = models.ForeignKey(
         Board, on_delete=models.CASCADE, related_name='tasks', default=1)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
+    
+    def save(self, *args, **kwargs):
+        if not self.board_list: 
+            default_list = BoardList.objects.filter(board=self.board).first()
+            if default_list:
+                self.board_list = default_list 
+            else:
+                raise ValueError("Es muss mindestens eine Liste im Board existieren!")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -78,3 +78,9 @@ class Category(models.Model):
         
     def __str__(self):
         return self.name
+    
+    
+    
+
+
+
