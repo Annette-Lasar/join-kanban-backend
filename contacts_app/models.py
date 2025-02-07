@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from utils.auxiliary_functions import generate_random_color
-# from users_auth_app.models import User
+from users_auth_app.models import User
 
 class Contact(models.Model):
     name = models.CharField(max_length=255)
@@ -13,7 +13,7 @@ class Contact(models.Model):
             ],
         blank=True,)
     color = models.CharField(max_length=7, default=generate_random_color)
-    # created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="contacts", default=4)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="contacts")
     
     def __str__(self):
         return self.name

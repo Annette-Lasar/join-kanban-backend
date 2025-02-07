@@ -12,8 +12,8 @@ class Task(models.Model):
         ('low', 'Low'),
     ]
 
-    title = models.CharField(max_length=255),
-    description = models.TextField(null=True, blank=True),
+    title = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
     due_date = models.DateField()
     priority = models.CharField(
         max_length=6,
