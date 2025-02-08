@@ -55,6 +55,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class GuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ["id", "username", "first_name"]
         
 

@@ -76,5 +76,6 @@ class GuestTokenView(APIView):
 
         return Response({
             'token': guest_token.key,
-            'user': serializer.data
+            'id': serializer.data["id"],
+            'username': serializer.data["username"],
         })
