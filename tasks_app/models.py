@@ -2,7 +2,7 @@ from django.db import models
 from contacts_app.models import Contact
 from boards_app.models import Board, BoardList
 from users_auth_app.models import User
-from utils.auxiliary_functions import generate_random_color
+from utils.auxiliary_functions import generate_random_color, is_bright_color
 
 
 class Task(models.Model):
@@ -62,14 +62,21 @@ class Subtask(models.Model):
 
 
 class Category(models.Model): 
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=20)
     color = models.CharField(max_length=7, default=generate_random_color)
+    color_brightness = models.BooleanField()
     deletable = models.BooleanField(default=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     
     class Meta: 
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
+        
+
+    def save(self, *args, **kwargs):
+        self.color_brightness = is_bright_color(self.color) 
+        super().save(*args, **kwargs)
+        
     
     def delete(self, *args, **kwargs):
         if self.id in [1, 2]:
@@ -81,6 +88,3 @@ class Category(models.Model):
     
     
     
-
-
-

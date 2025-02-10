@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from ..models import Task, Subtask, Category
 from contacts_app.api.serializers import ContactSerializer
+from boards_app.api.serializers import BoardListSerializer
 
 class SubtaskSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
@@ -13,9 +14,9 @@ class SubtaskSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'color', 'created_by']
+        fields = ['id', 'name', 'color', 'color_brightness', 'created_by']
         read_only_fields = ['created_by']
-        
+    
         
 class TaskSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
@@ -25,6 +26,7 @@ class TaskSerializer(serializers.ModelSerializer):
     subtasks = SubtaskSerializer(many=True)
     contacts = ContactSerializer(many=True, read_only=True)
     completed_subtasks = serializers.SerializerMethodField()
+    board_list = BoardListSerializer(read_only=True)
     
     class Meta:
         model = Task

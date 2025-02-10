@@ -61,7 +61,7 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["id", "name", "color", "created_by", "deletable"]
+    list_display = ["id", "name", "color", "created_by", "color_brightness"]
 
     fields = ["name", "color", "created_by", "deletable"]
     

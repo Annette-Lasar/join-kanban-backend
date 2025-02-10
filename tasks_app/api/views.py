@@ -38,10 +38,10 @@ class SummaryView(APIView):
         user_tasks = Task.objects.filter(created_by=request.user)
 
         task_counts = {
-            'todo_count': user_tasks.filter(board_list='toDo').count(),
-            'done_count': user_tasks.filter(board_list='done'),
-            'in_progress_count': user_tasks.filter(board_list='inProgress'),
-            'await_feedback_count': user_tasks.filter(board_list='awaitFeedback')
+            'todo_count': user_tasks.filter(board_list__name='toDo').count(),
+            'done_count': user_tasks.filter(board_list__name='done').count(),
+            'in_progress_count': user_tasks.filter(board_list__name='inProgress').count(),
+            'await_feedback_count': user_tasks.filter(board_list__name='awaitFeedback').count(),
         }
         urgent_count = user_tasks.filter(priority='urgent').count()
         total_tasks = user_tasks.count()
