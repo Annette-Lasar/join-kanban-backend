@@ -3,6 +3,7 @@ from django.db import models
 from utils.auxiliary_functions import generate_random_color
 from users_auth_app.models import User
 from utils.auxiliary_functions import is_bright_color
+from utils.auxiliary_functions import validate_hex_color
 
 class Contact(models.Model):
     name = models.CharField(max_length=255)
@@ -15,7 +16,7 @@ class Contact(models.Model):
             message="Enter a valid phone number. Only numbers, spaces, and the symbols +, -, /, and () are allowed.")
             ],
         blank=True,)
-    color = models.CharField(max_length=7, default=generate_random_color)
+    color = models.CharField(max_length=7, default=generate_random_color, validators=[validate_hex_color])
     color_brightness = models.BooleanField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="contacts")
     

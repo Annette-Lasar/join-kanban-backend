@@ -2,7 +2,11 @@ from django.db import models
 from contacts_app.models import Contact
 from boards_app.models import Board, BoardList
 from users_auth_app.models import User
-from utils.auxiliary_functions import generate_random_color, is_bright_color
+from utils.auxiliary_functions import (
+    generate_random_color, 
+    is_bright_color,
+    validate_hex_color
+    )
 
 
 class Task(models.Model):
@@ -63,7 +67,7 @@ class Subtask(models.Model):
 
 class Category(models.Model): 
     name = models.CharField(max_length=20)
-    color = models.CharField(max_length=7, default=generate_random_color)
+    color = models.CharField(max_length=7, default=generate_random_color, validators=[validate_hex_color])
     color_brightness = models.BooleanField()
     deletable = models.BooleanField(default=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)

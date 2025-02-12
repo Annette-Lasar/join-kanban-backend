@@ -1,4 +1,6 @@
 import random
+import re
+from django.core.exceptions import ValidationError
 
 
 def generate_random_color():
@@ -14,3 +16,8 @@ def is_bright_color(hex_color: str) -> bool:
     brightness = (r * 299 + g * 587 + b * 114) / 1000  
 
     return brightness > 128
+
+
+def validate_hex_color(value):
+    if not re.match(r'^#[0-9A-Fa-f]{6}$', value):
+        raise ValidationError("Color must be a valid hex code in the format #RRGGBB.")
