@@ -17,6 +17,11 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'color', 'color_brightness', 'created_by']
         read_only_fields = ['created_by']
     
+    def validate_color(self, value): 
+        if not value.startswith("#") or len(value) != 7:
+            raise serializers.ValidationError("Ungültiger Farbcode")
+        return value
+    
         
 class TaskSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)

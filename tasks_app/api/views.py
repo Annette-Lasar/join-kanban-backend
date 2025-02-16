@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from utils.auxiliary_functions import generate_random_color
 from tasks_app.models import Task, Category
 from tasks_app.api.serializers import TaskSerializer, CategorySerializer
 from tasks_app.api.utils import (
@@ -74,6 +75,11 @@ class CategoryViewSet(ModelViewSet):
             return Category.objects.filter(created_by=self.request.user)
     
     def perform_create(self, serializer):
+        color = serializer.validated_data.get('color', None)
+        
+        if not color: 
+            color = generate_random_color()
+            
         serializer.save(created_by=self.request.user)
         
     def destroy(self, request, *args, **kwargs):

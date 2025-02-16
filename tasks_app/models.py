@@ -68,7 +68,7 @@ class Subtask(models.Model):
 class Category(models.Model): 
     name = models.CharField(max_length=20)
     color = models.CharField(max_length=7, default=generate_random_color, validators=[validate_hex_color])
-    color_brightness = models.BooleanField()
+    color_brightness = models.BooleanField(null=True, blank=True)
     deletable = models.BooleanField(default=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     
