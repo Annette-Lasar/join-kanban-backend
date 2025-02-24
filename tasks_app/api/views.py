@@ -4,8 +4,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from utils.auxiliary_functions import generate_random_color
-from tasks_app.models import Task, Category
-from tasks_app.api.serializers import TaskSerializer, CategorySerializer
+from tasks_app.models import Task, Subtask, Category
+from tasks_app.api.serializers import TaskSerializer, SubtaskSerializer, CategorySerializer
 from tasks_app.api.utils import (
     get_next_due_date,
     format_due_date
@@ -30,6 +30,14 @@ class TaskViewSet(ModelViewSet):
         task_id = task.id
         task.delete()
         return Response({'id': task_id}, status=status.HTTP_200_OK)
+    
+    
+class SubtaskViewSet(ModelViewSet):
+    serializer_class = SubtaskSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Subtask.objects.filter(task__created_by=self.request.user)
 
 
 class SummaryView(APIView):
