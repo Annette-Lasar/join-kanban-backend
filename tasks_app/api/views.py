@@ -22,8 +22,24 @@ class TaskViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
 
-    def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
+    
+    def perform_update(self, serializer):
+        print("Eingehende Rohdaten: ", self.request.data)
+        category = serializer.validated_data.get("category") 
+        contacts_data = serializer.validated_data.pop("contact_ids", [])
+        task = serializer.instance  
+        
+        print("Contact IDs (direkt aus request.data):", self.request.data.get("contact_ids", None))
+        
+        serializer.save()
+        
+        if contacts_data: 
+            task.contacts.set(contacts_data)
+        else: 
+            task.contacts.clear()
+            
+        task.save()
+
 
     def destroy(self, request, *args, **kwargs):
         task = self.get_object()

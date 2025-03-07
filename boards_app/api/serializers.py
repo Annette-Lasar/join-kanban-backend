@@ -9,11 +9,10 @@ class BoardListSerializer(serializers.ModelSerializer):
 
 
 class BoardSerializer(serializers.ModelSerializer):
-    board_lists = serializers.SerializerMethodField()
+    board_lists = BoardListSerializer(many=True, read_only=True, source='lists')
 
     class Meta:
         model = Board
         fields = ['id', 'name', 'created_by', 'board_lists']
 
-    def get_board_lists(self, obj):
-        return [bl.name for bl in BoardList.objects.filter(board=obj)]
+   
