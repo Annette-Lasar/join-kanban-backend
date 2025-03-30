@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from ..models import Task, Subtask, Category
+from boards_app.models import BoardList
 from contacts_app.models import Contact
 from contacts_app.api.serializers import ContactSerializer
 from boards_app.api.serializers import BoardListSerializer
@@ -36,6 +37,12 @@ class TaskSerializer(serializers.ModelSerializer):
     )
     completed_subtasks = serializers.SerializerMethodField()
     board_list = BoardListSerializer(read_only=True)
+    board_list_id = serializers.PrimaryKeyRelatedField(
+        source='board_list',
+        queryset=BoardList.objects.all(),
+        write_only=True,
+        required=False
+    )
     
     class Meta:
         model = Task
@@ -46,9 +53,16 @@ class TaskSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         subtasks_data = validated_data.pop('subtasks', None)
+        contact_ids = validated_data.pop('contact_ids', None)
+        
         task = Task.objects.create(**validated_data)
-        for subtask_data in subtasks_data:
-            Subtask.objects.create(task=task, **subtask_data)
+        
+        if contact_ids is not None: 
+            task.contacts.set(contact_ids)
+        
+        if subtasks_data:         
+            for subtask_data in subtasks_data:
+                Subtask.objects.create(task=task, **subtask_data)
         return task
     
     
