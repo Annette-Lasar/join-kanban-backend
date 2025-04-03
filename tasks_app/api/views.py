@@ -5,6 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from utils.auxiliary_functions import generate_random_color
+from copy import deepcopy
 from boards_app.models import BoardList
 from tasks_app.models import Task, Subtask, Category
 from tasks_app.api.serializers import TaskSerializer, SubtaskSerializer, CategorySerializer
@@ -134,8 +135,14 @@ def reset_guest_tasks(request):
 
     Task.objects.filter(created_by=guest).delete()
 
-    for task_data in DEMO_TASKS:
-        board_list_name = task_data.pop("board_list_name")
+    for original_data in DEMO_TASKS:
+        task_data = deepcopy(original_data)
+        board_list_name = task_data.pop("board_list_name", None)
+        print("Board-List-Name für Task:", board_list_name)
+        if not board_list_name:
+            print("Kein board_list_name bei: ", task_data)
+            continue
+        
         subtasks_data = task_data.pop("subtasks", [])
 
         try:
