@@ -1,16 +1,19 @@
 from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from utils.auxiliary_functions import generate_random_color
+from boards_app.models import BoardList
 from tasks_app.models import Task, Subtask, Category
 from tasks_app.api.serializers import TaskSerializer, SubtaskSerializer, CategorySerializer
 from tasks_app.api.utils import (
     get_next_due_date,
     format_due_date
 )
-
+from users_auth_app.models import User
+from utils.demo_data import DEMO_TASKS
 
 class TaskViewSet(ModelViewSet):
     serializer_class = TaskSerializer
@@ -120,3 +123,34 @@ class CategoryViewSet(ModelViewSet):
         category.delete()
         return Response({'id': category_id}, status=status.HTTP_200_OK)
     
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def reset_guest_tasks(request):
+    try:
+        guest = User.objects.get(username="Guest")
+    except User.DoesNotExist:
+        return Response({"error": "Guest user not found."}, status=404)
+
+    Task.objects.filter(created_by=guest).delete()
+
+    for task_data in DEMO_TASKS:
+        board_list_name = task_data.pop("board_list_name")
+        subtasks_data = task_data.pop("subtasks", [])
+
+        try:
+            board_list = BoardList.objects.get(name=board_list_name, board_id=1)
+        except BoardList.DoesNotExist:
+            continue
+
+        task = Task.objects.create(
+            created_by=guest,
+            board_id=1,
+            board_list=board_list,
+            **task_data
+        )
+
+        for subtask in subtasks_data:
+            Subtask.objects.create(task=task, **subtask)
+
+    return Response({"status": "Guest tasks reset successful."})
