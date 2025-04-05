@@ -10,5 +10,5 @@ class BoardsAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'boards_app'
 
-    def ready(self):
-        import boards_app.signals  
+    # def ready(self):
+    #     import boards_app.signals  

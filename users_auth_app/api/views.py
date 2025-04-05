@@ -77,12 +77,13 @@ class GuestTokenView(APIView):
             }
         )
 
-        create_basic_board()
-        create_basic_categories()
-        create_basic_contacts(guest_user)
-        create_basic_tasks(guest_user)
+        if created: 
+            create_basic_board()
+            create_basic_categories()
+            create_basic_contacts(guest_user)
+            create_basic_tasks(guest_user)
 
-        guest_token = Token.objects.get(user=guest_user)
+        guest_token, _ = Token.objects.get_or_create(user=guest_user)
         serializer = GuestSerializer(guest_user)
 
         return Response({
