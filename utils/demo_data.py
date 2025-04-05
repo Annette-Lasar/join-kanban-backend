@@ -1,6 +1,23 @@
-# utils/demo_data.py
 from datetime import date, timedelta
 
+BASIC_BOARD_NAME = "Basic Board"
+
+BOARD_LIST_NAMES = ["toDo", "inProgress", "awaitFeedback", "done"]
+
+
+BASIC_CATEGORIES = [
+    {
+        "name": "Technical Task",
+        "color": "#1FD7C1",
+        "is_deletable": False,
+    },
+
+    {
+        "name": "User Story",
+        "color": "#0038FF",
+        "is_deletable": False,
+    }
+]
 
 
 DEMO_CONTACTS = [

@@ -16,7 +16,7 @@ class SubtaskSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'color', 'color_brightness', 'created_by']
+        fields = ['id', 'name', 'color', 'color_brightness', 'created_by', 'is_deletable']
         read_only_fields = ['created_by']
     
     def validate_color(self, value): 
@@ -67,7 +67,6 @@ class TaskSerializer(serializers.ModelSerializer):
     
     
     def update(self, instance, validated_data):
-        print("Validierte Daten: ", validated_data)
         subtasks_data = validated_data.pop('subtasks', None)
         category_id = validated_data.pop('category_id', None)
         contact_ids = validated_data.pop('contact_ids', None)
@@ -112,7 +111,6 @@ class TaskSerializer(serializers.ModelSerializer):
             else:
                 Subtask.objects.create(task=instance, **subtask_data)
 
-        # return instance
         return super().update(instance, validated_data)
 
         

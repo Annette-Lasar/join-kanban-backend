@@ -63,9 +63,9 @@ class TaskAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "color", "created_by", "color_brightness"]
 
-    fields = ["name", "color", "created_by", "deletable"]
+    fields = ["name", "color", "created_by", "is_deletable"]
     
     search_fields = ["name"]
     
-    list_filter = ["deletable"]
+    list_filter = ["is_deletable"]
 
