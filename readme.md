@@ -49,9 +49,5 @@ README.md ← This file
 ```
 
 ## Annotations
-If you want to try out a predefined user, you can log in with the following credentials:
-
-**Email:** anne-shirley@avonlea.com  
-**Password:** kindred-spirit
 
 > Note: After logging out as a guest, all contacts and tasks are automatically reset to standard demo data.

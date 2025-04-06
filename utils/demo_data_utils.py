@@ -5,7 +5,7 @@ from boards_app.models import Board, BoardList
 from .demo_data import BASIC_BOARD_NAME, BOARD_LIST_NAMES
 
 def create_basic_board():
-    board, created = Board.objects.get_or_create(
+    board, _ = Board.objects.get_or_create(
         name=BASIC_BOARD_NAME,
         created_by=None 
     )
@@ -16,6 +16,7 @@ def create_basic_board():
             board=board
         )
 
+    return board
 
 
 def create_basic_contacts(user):
@@ -31,19 +32,18 @@ def create_basic_contacts(user):
         )
 
 
-def create_basic_tasks(user):
+def create_basic_tasks(user, board):
     Task.objects.filter(created_by=user).delete()
 
-    # board_id = 1
-    try:
-        basic_board = Board.objects.get(name="Basic Board", created_by=None)
-    except Board.DoesNotExist:
-        print("❌ Basic Board not found – skipping task creation.")
-        return
+    # try:
+    #     basic_board = Board.objects.get(name="Basic Board", created_by=None)
+    # except Board.DoesNotExist:
+    #     print("Basic Board not found - skipping task creation.")
+    #     return
 
     for task in DEMO_TASKS:
         try:
-            board_list = BoardList.objects.get(name=task["board_list_name"], board_id=basic_board)
+            board_list = BoardList.objects.get(name=task["board_list_name"], board_id=board)
         except BoardList.DoesNotExist:
             print(f"BoardList {task['board_list_name']} not found - skipping task.")
             continue
@@ -65,7 +65,7 @@ def create_basic_tasks(user):
             due_date=task["due_date"],
             priority=task["priority"],  
             board_list=board_list,
-            board=basic_board,
+            board=board,
             category=category,
             created_by=user
         )
