@@ -67,7 +67,7 @@ class GuestTokenView(APIView):
     permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        guest_user, created = User.objects.get_or_create(
+        guest_user, _ = User.objects.get_or_create(
             username='Guest',
             defaults={
                 'email': 'guest@example.com',
@@ -77,11 +77,11 @@ class GuestTokenView(APIView):
             }
         )
 
-        if created: 
-            board = create_basic_board()
-            create_basic_categories()
-            create_basic_contacts(guest_user)
-            create_basic_tasks(guest_user, board)
+        
+        board = create_basic_board()
+        create_basic_categories()
+        create_basic_contacts(guest_user)
+        create_basic_tasks(guest_user, board)
 
         guest_token, _ = Token.objects.get_or_create(user=guest_user)
         serializer = GuestSerializer(guest_user)

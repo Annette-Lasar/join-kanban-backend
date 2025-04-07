@@ -35,12 +35,6 @@ def create_basic_contacts(user):
 def create_basic_tasks(user, board):
     Task.objects.filter(created_by=user).delete()
 
-    # try:
-    #     basic_board = Board.objects.get(name="Basic Board", created_by=None)
-    # except Board.DoesNotExist:
-    #     print("Basic Board not found - skipping task creation.")
-    #     return
-
     for task in DEMO_TASKS:
         try:
             board_list = BoardList.objects.get(name=task["board_list_name"], board_id=board)
