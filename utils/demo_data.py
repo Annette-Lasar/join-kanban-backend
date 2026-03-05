@@ -25,20 +25,77 @@ DEMO_CONTACTS = [
         "name": "Elizabeth Bennet",
         "email": "pemberley@derbyshire.com",
         "phone_number": "07453-1249743",
-        "color": "#ffa500",  # orange
+        "color": "#ffa500",
     },
     {
         "name": "Effi Briest",
         "email": "von_innstetten@kessin.com",
         "phone_number": "125084-1947304",
-        "color": "#1e90ff",  # dodger blue
+        "color": "#1e90ff",
     },
     {
         "name": "Jay Gatsby",
         "email": "gatsby@westegg.com",
         "phone_number": "04523-7820345",
-        "color": "#32cd32",  # lime green
+        "color": "#32cd32",
     },
+    {
+        "name": 'Anna Karenina',
+        "email": 'anna.karenina@moscow.com',
+        "phone_number": '01784-2049356',
+        "color": '#ff4500',
+
+    },
+    {
+
+        "name": 'Humbert Humbert',
+        "email": 'hh@ladylolita.com',
+        "phone_number": '03457-9812534',
+        "color": '#8a2be2',
+    },
+    {
+        "name": 'Emma Woodhouse',
+        "email": 'emma@hartfield.com',
+        "phone_number": '05592-6738294',
+        "color": '#ff69b4',
+    },
+    {
+        "name": 'Fanny Price',
+        "email": 'mansfield@mansfieldpark.com',
+        "phone_number": '04875-3382914',
+        "color": '#20b2aa',
+    },
+    {
+        "name": 'Dorian Gray',
+        "email": 'dorian@pictureofgray.com',
+        "phone_number": '05674-9823347',
+        "color": '#dda0dd',
+    },
+    {
+        "name": 'Charles Bovary',
+        "email": 'cbovary@normandy.com',
+        "phone_number": '04297-5628304',
+        "color": '#ff6347',
+    },
+    {
+        "name": "Scarlett O'Hara",
+        "email": 'scarlett@tara.com',
+        "phone_number": '06348-7328472',
+        "color": '#4682b4',
+    },
+    {
+        "name": 'Rhett Butler',
+        "email": 'rhett@notgivingadam.com',
+        "phone_number": '05384-9817643',
+        "color": '#7fff00',
+    },
+    {
+        "name": 'Hester Prynne',
+        "email": 'hester@thescarletletter.com',
+        "phone_number": '03184-5629874',
+        "color": '#dc143c',
+    }
+
 ]
 
 
