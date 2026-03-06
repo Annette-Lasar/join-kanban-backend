@@ -1,0 +1,7 @@
+services:
+  web:
+    entrypoint: ["/app/backend.entrypoint.prod.sh"]
+    volumes:
+      - /srv/join/static:/app/static
+    ports:
+      - "8000:8000"
