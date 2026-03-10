@@ -1,17 +1,17 @@
-# Virtuelle Umgebung
+# Virtual Environment
 env/
 
-# Python-spezifische Dateien
+# python-specific data
 __pycache__/
 *.pyc
 *.pyo
 
-# Datenbank
+# database
 db.sqlite3
 
-# Sensible Dateien
+# sensitive data
 *.env
 
-# IDE-spezifische Dateien
+# IDE-specific data
 .vscode/
 .idea/
