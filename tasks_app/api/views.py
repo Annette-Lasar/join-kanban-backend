@@ -65,7 +65,12 @@ class SummaryView(APIView):
             'in_progress_count': user_tasks.filter(board_list__name='inProgress').count(),
             'await_feedback_count': user_tasks.filter(board_list__name='awaitFeedback').count(),
         }
-        urgent_count = user_tasks.filter(priority='urgent').count()
+        
+        urgent_count = user_tasks.filter(
+            priority='urgent'
+        ).exclude(
+            board_list__name='done'
+        ).count()
         total_tasks = user_tasks.count()
         next_due_date = get_next_due_date(request.user)
         formatted_due_date = format_due_date(next_due_date)
